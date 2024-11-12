@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  clamav:
+    image: clamav/clamav:latest
+    container_name: clamav
+    environment:
+      - TZ=Asia/Bangkok  # กำหนด timezone
+    volumes:
+      - ./clamav_data:/var/lib/clamav  # โฟลเดอร์สำหรับเก็บข้อมูลฐานข้อมูลไวรัส
+      - ./config/clamd.conf:/etc/clamav/clamd.conf  # ไฟล์กำหนดค่า clamd
+      - ./config/freshclam.conf:/etc/clamav/freshclam.conf  # ไฟล์กำหนดค่า freshclam
+    ports:
+      - "3310:3310"  # พอร์ตสำหรับเชื่อมต่อ clamd
+    restart: unless-stopped
